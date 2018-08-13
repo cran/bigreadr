@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-#' tmp <- fwrite2(iris, tempfile())
+#' tmp <- fwrite2(iris)
 #' iris2 <- fread2(tmp)
 #' all.equal(iris2, iris)  ## fread doesn't use factors
 fread2 <- function(file, ...,
@@ -26,6 +26,7 @@ fread2 <- function(file, ...,
 #'
 #' @param x Data frame to write.
 #' @param file Path to the file that you want to write to.
+#'   Defaults uses `tempfile()`.
 #' @param ... Other arguments to be passed to [data.table::fwrite].
 #' @param quote Whether to quote strings (default is `FALSE`).
 #' @param nThread Number of threads to use. Default uses all threads minus one.
@@ -34,10 +35,10 @@ fread2 <- function(file, ...,
 #' @export
 #'
 #' @examples
-#' tmp <- fwrite2(iris, tempfile())
+#' tmp <- fwrite2(iris)
 #' iris2 <- fread2(tmp)
 #' all.equal(iris2, iris)  ## fread doesn't use factors
-fwrite2 <- function(x, file, ...,
+fwrite2 <- function(x, file = tempfile(), ...,
                     quote = FALSE,
                     nThread = getOption("bigreadr.nThread")) {
 
@@ -64,7 +65,7 @@ rbind_df <- function(list_df) {
     data.table::rbindlist(list_df)
   } else if (is.data.frame(first_df)) {
     list_df_merged <- lapply(seq_along(first_df), function(k) {
-      unlist(lapply(list_df, function(l) l[[k]]))
+      unlist(lapply(list_df, function(l) l[[k]]), recursive = FALSE)
     })
     list_df_merged_named <- stats::setNames(list_df_merged, names(list_df[[1]]))
     as.data.frame(list_df_merged_named, stringsAsFactors = FALSE)
@@ -164,35 +165,61 @@ cut_in_nb <- function(x, nb) {
 #' @param file Path to file that you want to read.
 #' @param nb_parts Number of parts in which to split reading (and transforming).
 #'   Parts are referring to blocks of selected columns.
+#'   Default uses `part_size` to set a good value.
 #' @param .transform Function to transform each data frame corresponding to each
 #'   block of selected columns. Default doesn't change anything.
 #' @param .combine Function to combine results (list of data frames).
 #' @param skip Number of lines to skip at the beginning of `file`.
 #' @param select Indices of columns to keep (sorted). Default keeps them all.
 #' @param ... Other arguments to be passed to [data.table::fread],
-#'   excepted `input`, `file`, `skip` and `select`.
+#'   excepted `input`, `file`, `skip`, `select` and `showProgress`.
+#' @param progress Show progress? Default is `FALSE`.
+#' @param part_size Size of the parts if `nb_parts` is not supplied.
+#'   Default is `500 * 1024^2` (500 MB).
 #'
-#' @inherit fread2 return
+#' @return The outputs of `fread2` + `.transform`, combined with `.combine`.
 #' @export
 #'
-big_fread2 <- function(file, nb_parts,
+big_fread2 <- function(file, nb_parts = NULL,
                        .transform = identity,
                        .combine = cbind_df,
-                       skip = 0, select = NULL, ...) {
+                       skip = 0,
+                       select = NULL,
+                       progress = FALSE,
+                       part_size = 500 * 1024^2,  ## 500 MB
+                       ...) {
 
+  assert_exist(file)
   ## Split selected columns in nb_parts
   if (is.null(select)) {
     nb_cols <- ncol(fread2(file, nrows = 1, skip = skip, ...))
     select <- seq_len(nb_cols)
   } else {
+    assert_int(select); assert_pos(select)
     if (is.unsorted(select, strictly = TRUE))
       stop2("Argument 'select' should be sorted.")
   }
+  # Number of parts
+  if (is.null(nb_parts)) {
+    nb_parts <- ceiling(file.size(file) / part_size)
+    if (progress) message2("Will read the file in %d parts.", nb_parts)
+  }
   split_cols <- cut_in_nb(select, nb_parts)
 
+  if (progress) {
+    pb <- utils::txtProgressBar(min = 0, max = length(select), style = 3)
+    on.exit(close(pb), add = TRUE)
+  }
+
   ## Read + transform other parts
+  already_read <- 0
   all_parts <- lapply(split_cols, function(cols) {
-    .transform(fread2(file, skip = skip, select = cols, ...))
+    part <- .transform(
+      fread2(file, skip = skip, select = cols, ..., showProgress = FALSE)
+    )
+    already_read <<- already_read + length(cols)
+    if (progress) utils::setTxtProgressBar(pb, already_read)
+    part
   })
 
   ## Combine
