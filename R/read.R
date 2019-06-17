@@ -2,7 +2,8 @@
 
 #' Read a text file
 #'
-#' @param file Path to the file that you want to read from.
+#' @param file Path to the file that you want to read from. If multiple files
+#'   are given, resulting data frames are appended.
 #' @param ... Other arguments to be passed to [data.table::fread].
 #' @param data.table Whether to return a `data.table` or just a `data.frame`?
 #'   Default is `FALSE` (and is the opposite of [data.table::fread]).
@@ -19,7 +20,11 @@ fread2 <- function(file, ...,
                    data.table = FALSE,
                    nThread = getOption("bigreadr.nThread")) {
 
-  data.table::fread(file = file, ..., data.table = data.table, nThread = nThread)
+  if (length(file) > 1) {
+    rbind_df(lapply(file, fread2, ..., data.table = data.table, nThread = nThread))
+  } else {
+    data.table::fread(file = file, ..., data.table = data.table, nThread = nThread)
+  }
 }
 
 #' Write a data frame to a text file
@@ -103,7 +108,7 @@ cbind_df <- function(list_df) {
 #' @param .combine Function to combine results (list of data frames).
 #' @param skip Number of lines to skip at the beginning of `file`.
 #' @param ... Other arguments to be passed to [data.table::fread],
-#'   excepted `input`, `file`, `skip` and `col.names`.
+#'   excepted `input`, `file`, `skip`, `col.names` and `showProgress`.
 #' @param print_timings Whether to print timings? Default is `TRUE`.
 #'
 #' @inherit fread2 return
@@ -131,7 +136,7 @@ big_fread1 <- function(file, every_nlines,
   print_proc("Splitting")
 
   ## Read first part to get names and to skip some lines
-  part1 <- fread2(file_parts[1], skip = skip, ...)
+  part1 <- fread2(file_parts[1], skip = skip, ..., showProgress = FALSE)
   names_df <- names(part1)
   part1 <- .transform(part1)
 
@@ -139,13 +144,18 @@ big_fread1 <- function(file, every_nlines,
 
   ## Read + transform other parts
   other_parts <- lapply(file_parts[-1], function(file_part) {
-    .transform(fread2(file_part, skip = 0, col.names = names_df, ...))
+    .transform(fread2(file_part, skip = 0, col.names = names_df,
+                      ..., showProgress = FALSE))
   })
 
   print_proc("Reading + transforming other parts")
 
   ## Combine
-  res <- .combine(c(list(part1), other_parts))
+  all_parts <- unname(c(list(part1), other_parts))
+  res <- tryCatch(.combine(all_parts), error = function(e) {
+    warning2("Combining failed. Returning list of parts instead..")
+    all_parts
+  })
 
   print_proc("Combining")
 
@@ -221,9 +231,13 @@ big_fread2 <- function(file, nb_parts = NULL,
     if (progress) utils::setTxtProgressBar(pb, already_read)
     part
   })
+  all_parts <- unname(all_parts)
 
   ## Combine
-  .combine(unname(all_parts))
+  tryCatch(.combine(all_parts), error = function(e) {
+    warning2("Combining failed. Returning list of parts instead..")
+    all_parts
+  })
 }
 
 ################################################################################

@@ -9,9 +9,22 @@ csv <- fwrite2(iris, tempfile(fileext = ".csv"))
 
 test_that("'fread2' changes default", {
   no_dt <- fread2(csv)
+  expect_equal(no_dt, iris)
   expect_s3_class(no_dt, "data.frame")
   expect_failure(expect_s3_class(no_dt, "data.table"))
   expect_s3_class(fread2(csv, data.table = TRUE), "data.table")
+})
+
+test_that("'fread2' works with multiple files", {
+  csv2 <- rep(csv, 3)
+  no_dt <- fread2(csv2)
+  expect_equal(no_dt, rbind(iris, iris, iris))
+  expect_s3_class(no_dt, "data.frame")
+  expect_failure(expect_s3_class(no_dt, "data.table"))
+  expect_s3_class(fread2(csv2, data.table = TRUE), "data.table")
+
+  expect_equal(dim(fread2(csv2, nrows = 5)), c(15, 5))
+  expect_equal(dim(fread2(csv2, select = "Species")), c(450, 1))
 })
 
 ################################################################################
@@ -20,6 +33,13 @@ test_that("'big_fread1' works", {
 
   iris1 <- big_fread1(file = csv, 50, print_timings = FALSE)
   expect_identical(iris1, iris)
+
+  expect_warning(
+    iris1 <- big_fread1(file = csv, 50, print_timings = FALSE,
+                        .combine = function() stop("ERROR")),
+    "Combining failed.")
+  expect_length(iris1, 4)
+  expect_identical(rbind_df(iris1), iris)
 
   iris2 <- big_fread1(file = csv, 250, print_timings = FALSE)
   expect_identical(iris2, iris)
@@ -41,8 +61,16 @@ test_that("'big_fread1' works", {
 test_that("'big_fread2' works", {
 
   for (nb_parts in 1:7) {
+
     iris1 <- big_fread2(file = csv, nb_parts)
     expect_identical(iris1, iris)
+
+    expect_warning(
+      iris1 <- big_fread2(file = csv, nb_parts,
+                          .combine = function() stop("ERROR")),
+      "Combining failed.")
+    expect_length(iris1, min(nb_parts, ncol(iris)))
+    expect_identical(cbind_df(iris1), iris)
 
     ind2 <- 1
     iris2 <- big_fread2(file = csv, nb_parts, select = ind2, skip = 0)

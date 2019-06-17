@@ -1,4 +1,3 @@
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build status](https://travis-ci.org/privefl/bigreadr.svg?branch=master)](https://travis-ci.org/privefl/bigreadr)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/privefl/bigreadr?branch=master&svg=true)](https://ci.appveyor.com/project/privefl/bigreadr)
 [![Coverage status](https://codecov.io/gh/privefl/bigreadr/branch/master/graph/badge.svg)](https://codecov.io/github/privefl/bigreadr?branch=master)
@@ -41,3 +40,13 @@ identical(big_iris1_setosa, dplyr::filter(big_iris1, Species == "setosa"))
 identical(big_iris2, big_iris1)
 identical(big_iris2_setosa, big_iris1_setosa)
 ```
+
+## Use cases
+
+Please send me your use cases!
+
+- [Convert a CSV to SQLite by parts](https://privefl.github.io/bigreadr/articles/csv2sqlite.html)
+
+- [Read a text file as a Filebacked Big Matrix](https://privefl.github.io/bigstatsr/reference/big_read.html)
+
+- [Read a text file as a Filebacked Data Frame](https://privefl.github.io/bigdfr/reference/FDF_read.html)
