@@ -1,6 +1,6 @@
 Package: bigreadr
-Version: 0.1.5
-Date: 2019-06-17
+Version: 0.1.6
+Date: 2019-07-04
 Title: Read Large Text Files
 Description: Read large text files by splitting them in smaller files.
 Authors@R: person("Florian", "Privé", , "florian.prive.21@gmail.com", c("aut", "cre"))
@@ -16,8 +16,8 @@ Language: en-US
 URL: https://github.com/privefl/bigreadr
 BugReports: https://github.com/privefl/bigreadr/issues
 NeedsCompilation: yes
-Packaged: 2019-06-17 18:56:49 UTC; privef
+Packaged: 2019-07-04 15:27:29 UTC; privef
 Author: Florian Privé [aut, cre]
 Maintainer: Florian Privé <florian.prive.21@gmail.com>
 Repository: CRAN
-Date/Publication: 2019-06-17 19:30:07 UTC
+Date/Publication: 2019-07-04 16:00:12 UTC
