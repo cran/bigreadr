@@ -1,9 +1,9 @@
-043b9c4bfab95498756b69ecc42245c7 *DESCRIPTION
+a5223bad7ebcd97f3975b4fa0a1a5c1d *DESCRIPTION
 495aad73c4fc8ed98ffecc13f10e1b5f *NAMESPACE
 dd3261af6297a8d74e41d89d4be9aabd *R/RcppExports.R
 7dfd7c5c9a49921861f4f73846bf3f28 *R/bigreadr-package.R
 04c88142482435f91b13459774df2624 *R/nlines.R
-6a914737a31968687e09895c2fcac512 *R/read.R
+de75d27651e393407fa5e6b52f7e259b *R/read.R
 5918c8fa25490872a90bdccc48ae7d9a *R/split.R
 7842adf83339a6b7775ebccf0de2aa95 *R/utils.R
 317a59401d6062af73015d92d534e226 *R/zzz.R
@@ -11,9 +11,9 @@ ad95b166130bf9519825d9accb4d7f8e *README.md
 1494646a85b3ac7db5d47b0d60c9cd29 *inst/WORDLIST
 8f979e9ae0127ba2d24c57d63b7dbdfd *man/big_fread1.Rd
 821c7758751c7248810c0c65f659d00f *man/big_fread2.Rd
-6bd9dfa9b618da3231b6e6fabe178396 *man/bigreadr-package.Rd
+33053eccd0d4a5000d838895a45d006c *man/bigreadr-package.Rd
 0bdca6a8bf87cc70b603d2280a37ea3c *man/cbind_df.Rd
-b24a1b0b36777b3ac9fac51f7f742fa4 *man/fread2.Rd
+b6abad62b938bdec2ce0d6ec16bf54a3 *man/fread2.Rd
 ac67e47795d5201a906989fc147b2ada *man/fwrite2.Rd
 2efd95104f3c165f9bcfc746c6afbc48 *man/nlines.Rd
 feaa9a5464fa72226be08f92d228d11d *man/rbind_df.Rd
@@ -24,5 +24,5 @@ bc882e5235bfdccc9e49f99290365b40 *tests/spelling.R
 a16a128fdde46fe9250bbecc452561d2 *tests/testthat.R
 cb3f2f4487f30fda954982c517543130 *tests/testthat/test-bind.R
 befad760a7b199f6f4ad9a14e0776945 *tests/testthat/test-nlines.R
-5b99fb3d34207409a04af92ff36e2ea7 *tests/testthat/test-read.R
+dbcfe63b0f833790adf1a8d306d4f37f *tests/testthat/test-read.R
 fa7022af98d38ef0c434ab8ed3bdd6f7 *tests/testthat/test-split.R
