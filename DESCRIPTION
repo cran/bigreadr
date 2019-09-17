@@ -1,6 +1,6 @@
 Package: bigreadr
-Version: 0.1.9
-Date: 2019-09-07
+Version: 0.1.10
+Date: 2019-09-17
 Title: Read Large Text Files
 Description: Read large text files by splitting them in smaller files.
     Package bigreadr also provides some convenient wrappers of fread/fwrite. 
@@ -17,8 +17,8 @@ Language: en-US
 URL: https://github.com/privefl/bigreadr
 BugReports: https://github.com/privefl/bigreadr/issues
 NeedsCompilation: yes
-Packaged: 2019-09-07 15:59:21 UTC; privef
+Packaged: 2019-09-17 06:48:31 UTC; privef
 Author: Florian Privé [aut, cre]
 Maintainer: Florian Privé <florian.prive.21@gmail.com>
 Repository: CRAN
-Date/Publication: 2019-09-07 16:20:06 UTC
+Date/Publication: 2019-09-17 07:20:03 UTC
