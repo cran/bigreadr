@@ -1,11 +1,11 @@
-47eb068218e824160c982448d73bd334 *DESCRIPTION
+dbce128e44efc4de399567487d885b20 *DESCRIPTION
 3e5be8a8ed3a5fda5ae211922323b86f *NAMESPACE
 5b989ade46958a493a00dae6b7c37af1 *R/RcppExports.R
 74ffaf075c8c65fe1734e710d5f9531c *R/bigreadr-package.R
 deb859e1a110a87f7b02efa2401c6170 *R/bind.R
 a6f6efd687bfa5aa6c6c6616290959e8 *R/nlines-split.R
 a0318d4ca195f54f82e65c496902300e *R/read.R
-8ba04e13f30b8058c1f79a59e15443ba *R/zzz.R
+86205ea1cd4ecb95bdccc921cea04f77 *R/zzz.R
 6ce93141bf8fd3c9d0882eb4496bf227 *README.md
 9a1beeef4fae0ae030023e133fe3b63f *inst/WORDLIST
 0eaa63d8d0a3347cbbd24e98c11e4610 *inst/testdata/cars_with_newline.csv
