@@ -1,4 +1,4 @@
-dbce128e44efc4de399567487d885b20 *DESCRIPTION
+f4124691539f0952d9bcf8afd501b9a3 *DESCRIPTION
 3e5be8a8ed3a5fda5ae211922323b86f *NAMESPACE
 5b989ade46958a493a00dae6b7c37af1 *R/RcppExports.R
 74ffaf075c8c65fe1734e710d5f9531c *R/bigreadr-package.R
@@ -6,7 +6,7 @@ deb859e1a110a87f7b02efa2401c6170 *R/bind.R
 a6f6efd687bfa5aa6c6c6616290959e8 *R/nlines-split.R
 a0318d4ca195f54f82e65c496902300e *R/read.R
 86205ea1cd4ecb95bdccc921cea04f77 *R/zzz.R
-6ce93141bf8fd3c9d0882eb4496bf227 *README.md
+b28ece984a4c931d66b690634d0c71c5 *README.md
 9a1beeef4fae0ae030023e133fe3b63f *inst/WORDLIST
 0eaa63d8d0a3347cbbd24e98c11e4610 *inst/testdata/cars_with_newline.csv
 86783a2c6569e01c388a5766061e0440 *inst/testdata/cars_without_newline.csv
@@ -20,11 +20,11 @@ a0318d4ca195f54f82e65c496902300e *R/read.R
 698d32be1591fc7061177a5d90253f2c *man/nlines.Rd
 e00a566100c8fbda9d96028f77004173 *man/rbind_df.Rd
 94868bc6334eaad4bc15a25be0863961 *man/split_file.Rd
-94e2d0efb8977b2e064713d169ca771b *src/RcppExports.cpp
-8407d16f29d2799bb9385526a57f2126 *src/nlines-split.cpp
+cd48b05b630e1f9f850e6a9bdac2ed93 *src/RcppExports.cpp
+95f43f3b915bfa2501dd626c19de2339 *src/nlines-split.cpp
 d1b004762b6904147d0fd0fd890a68d1 *tests/spelling.R
 a5062f22d5389c422bffbdd742f56a4c *tests/testthat.R
 b5acb29becf1992d37ddeb983509ec6a *tests/testthat/test-bind.R
 5997bfce1c38db64296d9521efc24167 *tests/testthat/test-nlines.R
 75a56331667d87c1148ef893fbbbabd8 *tests/testthat/test-read.R
-4a368cbfe4e587678773a81db504d82b *tests/testthat/test-split.R
+69b2633f8a987ee19b94d67f5cff14c0 *tests/testthat/test-split.R
